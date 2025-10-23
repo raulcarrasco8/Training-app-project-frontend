@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { TextInput, Textarea, Button } from '@mantine/core'; // Import Mantine components
+import { TextInput, Textarea, Button } from '@mantine/core'; 
 
 
 const API_URL = "http://localhost:5005";

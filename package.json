@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@mantine/core": "^8.3.5",
-    "@mantine/form": "^8.3.5",
     "@mantine/hooks": "^8.3.5",
     "axios": "^1.12.2",
     "react": "^19.1.1",

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { TextInput, Textarea, Button } from '@mantine/core'; // Import Mantine components
 
 
 const API_URL = "http://localhost:5005";
@@ -34,30 +35,27 @@ function AddWorkout(props) {
 
     return (
         <form onSubmit={handleTitle}>
-            <input
-                type="text"
+            <TextInput
                 placeholder="Title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
             />
-            <textarea
+            <Textarea
                 placeholder="Description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
             />
-            <input
-                type="text"
+            <TextInput
                 placeholder="Discipline"
                 value={discipline}
                 onChange={(e) => setDiscipline(e.target.value)}
             />
-            <input
-                type="text"
+            <TextInput
                 placeholder="Exercises"
                 value={exercises}
                 onChange={(e) => setExercises(e.target.value)}
             />
-            <button type="submit">Add Workout</button>
+            <Button type="submit">Add Workout</Button> {/* Use Mantine Button */}
         </form>
     );
 }

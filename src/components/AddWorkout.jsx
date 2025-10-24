@@ -55,7 +55,7 @@ function AddWorkout(props) {
                 value={exercises}
                 onChange={(e) => setExercises(e.target.value)}
             />
-            <Button type="submit">Add Workout</Button> {/* Use Mantine Button */}
+            <Button type="submit">Add Workout</Button> 
         </form>
     );
 }

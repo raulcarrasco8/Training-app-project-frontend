@@ -1,32 +1,31 @@
 
 
-// src/components/Navbar.jsx
 
 import { Link } from "react-router-dom";
-import { useContext } from "react";                     // <== IMPORT 
-import { AuthContext } from "../context/auth.context";  // <== IMPORT
+import { useContext } from "react";                     
+import { AuthContext } from "../context/auth.context";  
+import { Button } from "@mantine/core";
 
 function Navbar() {
   const {
     isLoggedIn,
-    user,                   // <== UPDATE
-    logOutUser              // <== UPDATE
+    user,                   
+    logOutUser              
   } = useContext(AuthContext);
 
   return (
     <nav>
       <Link to="/">
-        <button>Home</button>
+        <Button color="orange" variant="light">Home</Button>
       </Link>
 
       {isLoggedIn && (
         <>
           <Link to="/workouts">
-            <button>Workouts</button>
+            <Button color="orange" variant="light">Workouts</Button>
           </Link>
 
-          {/*   UPDATE   */}
-          <button onClick={logOutUser}>Logout</button>
+          <Button color="orange" variant="light" onClick={logOutUser}>Logout</Button>
           <span>{user && user.name}</span>
         </>
       )}

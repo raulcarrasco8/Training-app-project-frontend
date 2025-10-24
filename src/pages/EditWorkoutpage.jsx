@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import { notifications } from '@mantine/notifications';
 
 const API_URL = "http://localhost:5005";
 
@@ -41,8 +41,20 @@ function EditWorkoutPage(props) {
                 { headers: { Authorization: `Bearer ${storedToken}` } }
             )
             .then((response) => {
-                // Handle successful update (e.g., navigate to another page or show a success message)
-                navigate(`/workouts/${workoutId}`)
+                notifications.show({
+                    title: 'Success',
+                    message: 'Workout updated successfully!',
+                    color: 'green'
+                });
+                navigate(`/workouts/${workoutId}`);
+            })
+            .catch((error) => {
+                console.log(error);
+                notifications.show({
+                    title: 'Error',
+                    message: 'Could not update the workout',
+                    color: 'red'
+                });
             });
     };
 

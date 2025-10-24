@@ -1,7 +1,7 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { notifications } from '@mantine/notifications';
 
 import AddWorkout from "../components/AddWorkout";
 import WorkoutCard from "../components/WorkoutCard";
@@ -47,9 +47,21 @@ function WorkoutListPage() {
                 headers: { Authorization: `Bearer ${storedToken}` }
             })
             .then(() => {
-                getAllWorkouts(); // Refresca la lista después de eliminar
+                getAllWorkouts();
+                notifications.show({
+                    title: 'Success',
+                    message: 'Workout deleted successfully',
+                    color: 'green'
+                });
             })
-            .catch((error) => console.log(error));
+            .catch((error) => {
+                console.log(error);
+                notifications.show({
+                    title: 'Error',
+                    message: 'Could not delete workout',
+                    color: 'red'
+                });
+            });
     };
 
     return (

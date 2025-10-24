@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { TextInput, Textarea, Button } from '@mantine/core'; 
+import { notifications } from '@mantine/notifications';
 
 
 const API_URL = "http://localhost:5005";
@@ -27,10 +28,23 @@ function AddWorkout(props) {
                 setDiscipline("");
                 setExercises("");
 
+                notifications.show({
+                    title: 'Success',
+                    message: 'Workout created successfully!',
+                    color: 'green'
+                });
+
                 // Call the refreshWorkouts function passed as a prop
                 props.refreshWorkouts();
             })
-            .catch((error) => console.log(error));
+            .catch((error) => {
+                console.log(error);
+                notifications.show({
+                    title: 'Error',
+                    message: 'Could not create the workout',
+                    color: 'red'
+                });
+            });
     };
 
     return (

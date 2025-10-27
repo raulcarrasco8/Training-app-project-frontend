@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { notifications } from '@mantine/notifications';
+import { Button } from '@mantine/core';
 
 const API_URL = "http://localhost:5005";
 
@@ -87,7 +88,8 @@ function EditWorkoutPage(props) {
                     value={exercises}
                     onChange={(e) => setExercises(e.target.value)}
                 />
-                <button type="submit">Update Workout</button>
+                <Button color="green" variant="light" type="submit">Update Workout</Button>
+                <Button color="indigo" variant="light" type="button" onClick={() => navigate('/workouts')}>Return</Button>
             </form>
         </div>
     );

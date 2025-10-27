@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Button } from '@mantine/core';
+
 
 const API_URL = "http://localhost:5005";
 
 function WorkoutDetailsPage(props) {
     const [workout, setWorkout] = useState(null);
     const { workoutId } = useParams();
+    const navigate = useNavigate();
 
     const getWorkout = () => {
         const storedToken = localStorage.getItem('authToken');
@@ -22,7 +25,7 @@ function WorkoutDetailsPage(props) {
 
     useEffect(() => {
         getWorkout();
-    }, []);
+    }, [workoutId]);
 
     return (
         <div className="WorkoutDetailsPage">
@@ -34,6 +37,7 @@ function WorkoutDetailsPage(props) {
             ) : (
                 <p>Loading...</p>
             )}
+            <Button color="indigo" variant="light" type="button" onClick={() => navigate('/workouts')}>Return</Button>
         </div>
     );
 }

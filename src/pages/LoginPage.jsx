@@ -26,17 +26,27 @@ function LoginPage(props) {
         const requestBody = { email, password };
 
         axios.post(`${API_URL}/auth/login`, requestBody)
-            .then((response) => {
+            .then(async (response) => {
                 console.log('JWT token', response.data.authToken);
-
+                
+                // Almacenar el token
                 storeToken(response.data.authToken);
-
-                navigate('/');
+                
+                try {
+                    // Esperar a que la autenticación se complete
+                    await authenticateUser();
+                    // Solo navegar después de que la autenticación sea exitosa
+                    navigate('/workouts');
+                } catch (err) {
+                    console.error("Error during authentication:", err);
+                    setErrorMessage("Authentication failed after login");
+                }
             })
             .catch((error) => {
-                const errorDescription = error.response.data.message;
+                console.error("Login error:", error);
+                const errorDescription = error.response?.data?.message || "An error occurred during login";
                 setErrorMessage(errorDescription);
-            })
+            });
     };
 
     return (

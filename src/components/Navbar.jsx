@@ -32,8 +32,8 @@ function Navbar() {
 
       {!isLoggedIn && (
         <>
-          <Link to="/signup"> <button>Sign Up</button> </Link>
-          <Link to="/login"> <button>Login</button> </Link>
+          <Link to="/signup"> <Button color="orange" variant="light">Sign Up</Button> </Link>
+          <Link to="/login"> <Button color="orange" variant="light">Login</Button> </Link>
         </>
       )}
 

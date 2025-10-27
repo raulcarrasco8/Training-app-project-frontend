@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { notifications } from '@mantine/notifications';
-import { Button } from '@mantine/core';
+import { Button, TextInput, Textarea } from '@mantine/core';
 
 const API_URL = "http://localhost:5005";
 
-function EditWorkoutPage(props) {
+function EditWorkoutPage() {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [discipline, setDiscipline] = useState("");
@@ -66,25 +66,23 @@ function EditWorkoutPage(props) {
             <h2>Edit Workout</h2>
 
             <form onSubmit={handleSubmit}>
-                <label>Title:</label>
-                <input
-                    type="text"
+                <TextInput
+                    label="Title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                 />
-                <label>Description:</label>
-                <textarea
+                <Textarea
+                    label="Description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                 />
-                <label>Discipline:</label>
-                <input
-                    type="text"
+                <TextInput
+                    label="Discipline"
                     value={discipline}
                     onChange={(e) => setDiscipline(e.target.value)}
                 />
-                <label>Exercises:</label>
-                <textarea
+                <Textarea
+                    label="Exercises"
                     value={exercises}
                     onChange={(e) => setExercises(e.target.value)}
                 />

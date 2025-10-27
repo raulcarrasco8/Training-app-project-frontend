@@ -1,0 +1,22 @@
+
+
+.WorkoutCard {
+  font-family: Arial, sans-serif;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  display: inline-block;
+  background-color: #f9fafb;
+}
+
+.WorkoutCard button {
+  margin-right: 10px;
+}
+
+.WorkoutCard h3 {
+  margin-top: 0;
+  text-align: center;
+}

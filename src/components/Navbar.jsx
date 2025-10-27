@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";                     
 import { AuthContext } from "../context/auth.context";  
 import { Button } from "@mantine/core";
+import "./Navbar.css";
 
 function Navbar() {
   const {
@@ -14,7 +15,7 @@ function Navbar() {
   } = useContext(AuthContext);
 
   return (
-    <nav>
+    <nav className="navbar">
       <Link to="/">
         <Button color="orange" variant="light">Home</Button>
       </Link>

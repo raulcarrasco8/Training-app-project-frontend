@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Button } from '@mantine/core';
-
+import { Button, TextInput } from '@mantine/core';
+import "./WorkoutDetailsPage.css";
 
 const API_URL = "http://localhost:5005";
 
@@ -32,7 +32,11 @@ function WorkoutDetailsPage(props) {
             {workout ? (
                 <>
                     <h2>{workout.title}</h2>
-                    <p>{workout.description}</p>
+                    <TextInput
+                        label="Description:"
+                        value={workout.description}
+                        readOnly
+                    />
                 </>
             ) : (
                 <p>Loading...</p>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { TextInput, Textarea, Button } from '@mantine/core'; 
 import { notifications } from '@mantine/notifications';
+import "./AddWorkout.css";
 
 
 const API_URL = "http://localhost:5005";
@@ -48,21 +49,22 @@ function AddWorkout(props) {
     };
 
     return (
-        <form onSubmit={handleTitle}>
+        <form className="CreateWorkout" onSubmit={handleTitle}>
+            <h3>Create your Workout</h3>
             <TextInput
                 placeholder="Title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
             />
-            <Textarea
-                placeholder="Description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-            />
             <TextInput
                 placeholder="Discipline"
                 value={discipline}
                 onChange={(e) => setDiscipline(e.target.value)}
+            />
+            <Textarea
+                placeholder="Description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
             />
             <TextInput
                 placeholder="Exercises"

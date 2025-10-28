@@ -7,7 +7,7 @@
 }
 
 .hero {
-  background: linear-gradient(135deg, #f6f9ff 0%, #e8f0ff 100%);
+  background: linear-gradient(135deg, #f6f9ff 0%, hwb(219 91% 0%) 100%);
   border-radius: 12px;
   padding: 3rem;
   text-align: center;
@@ -54,15 +54,20 @@
 .features {
   margin-top: 2rem;
   padding: 1.25rem;
+  background: linear-gradient(135deg, #fff6d8 0%, #fdf9d4 100%);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(253, 115, 64, 0.1);
 }
 
 .features h2 {
   margin: 0 0 0.5rem;
+  color: rgb(253, 115, 64);
 }
 
 .features ul {
   margin: 0;
   padding-left: 1.2rem;
+  color: rgb(252, 138, 96);
 }
 
 .editable-note {

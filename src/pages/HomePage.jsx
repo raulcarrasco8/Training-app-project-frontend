@@ -21,11 +21,6 @@ export default function HomePage() {
           <li>Interfaz simple y responsiva</li>
         </ul>
       </section>
-
-      <section className="editable-note">
-        <h3>Personaliza esta página</h3>
-        <p>Edita src/pages/HomePage.jsx y src/pages/HomePage.css para cambiar texto, estructura y estilos.</p>
-      </section>
     </main>
   );
 }

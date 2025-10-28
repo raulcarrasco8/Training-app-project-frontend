@@ -3,7 +3,7 @@ import axios from "axios";
 import { TextInput, Textarea, Button } from '@mantine/core'; 
 import { notifications } from '@mantine/notifications';
 import "./AddWorkout.css";
-
+import { NativeSelect } from '@mantine/core';
 
 const API_URL = "http://localhost:5005";
 
@@ -56,10 +56,11 @@ function AddWorkout(props) {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
             />
-            <TextInput
-                placeholder="Discipline"
+            <NativeSelect
+                label="Discipline"
                 value={discipline}
                 onChange={(e) => setDiscipline(e.target.value)}
+                data={['Swim', 'Cycling', 'Run', 'Gym']}
             />
             <Textarea
                 placeholder="Description"

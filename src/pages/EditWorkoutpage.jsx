@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { notifications } from '@mantine/notifications';
 import { Button, TextInput, Textarea } from '@mantine/core';
+import "./EditWorkoutPage.css";
 
 const API_URL = "http://localhost:5005";
 

@@ -9,16 +9,19 @@ import { AuthProviderWrapper } from "./context/auth.context";
 import { BrowserRouter } from 'react-router-dom';
 import { MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
+import { ModalsProvider } from '@mantine/modals';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <MantineProvider>
-      <Notifications />
-      <BrowserRouter>
-        <AuthProviderWrapper>
-          <App />
-        </AuthProviderWrapper>
-      </BrowserRouter>
+      <ModalsProvider>
+        <Notifications />
+        <BrowserRouter>
+          <AuthProviderWrapper>
+            <App />
+          </AuthProviderWrapper>
+        </BrowserRouter>
+      </ModalsProvider>
     </MantineProvider>
   </StrictMode>
 );

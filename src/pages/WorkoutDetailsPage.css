@@ -3,19 +3,30 @@
   max-width: 600px;
   margin: 2rem auto;
   padding: 2rem;
-  background: #f9fafb;
+  background: linear-gradient(135deg, #f6f9ff 0%, hwb(219 91% 0%) 100%);
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 18px rgba(30, 60, 120, 0.08);
 }
-
 
 
 .WorkoutDetailsPage h2 {
   font-size: 1.8rem;
   margin-bottom: 2rem;
-  color: #1f2937;
+  color: #0b3b6f;
+  font-size: 2rem;
 }
 
 .WorkoutDetailsPage p {
   color: #6b7280;
+}
+
+.WorkoutDetailsPage input,
+.WorkoutDetailsPage textarea,
+.WorkoutDetailsPage select {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
 }

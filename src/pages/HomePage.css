@@ -42,6 +42,10 @@
   font-weight: 600;
 }
 
+.cta-btn:hover {
+  background: #094ac1;
+}
+
 .ghost-btn {
   background: transparent;
   color: #0b5fff;

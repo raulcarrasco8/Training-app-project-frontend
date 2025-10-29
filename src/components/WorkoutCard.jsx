@@ -10,6 +10,9 @@ function WorkoutCard({workout, onEdit, onView, onDelete}) {
   const openDeleteModal = (id) => {
     modals.openConfirmModal({
       title: 'Confirm delete',
+      classNames: {
+        root: 'custom-modal-root'
+      },
       centered: true,
       children: (
         <Text size="sm">

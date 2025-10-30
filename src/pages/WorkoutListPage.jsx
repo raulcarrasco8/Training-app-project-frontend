@@ -1,5 +1,7 @@
+
+
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { notifications } from '@mantine/notifications';
 
@@ -12,24 +14,40 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 function WorkoutListPage() {
     const [workouts, setWorkouts] = useState([]);
+
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    // Get the values from the URL query strings
+    const disciplineId = searchParams.get("discipline");
+
+
     const navigate = useNavigate();
 
     const getAllWorkouts = () => {
         const storedToken = localStorage.getItem('authToken');
 
+        // ✅ Si hay disciplineId, filtrar por disciplina
+        const url = disciplineId
+            ? `${API_URL}/api/workouts?discipline=${disciplineId}`
+            : `${API_URL}/api/workouts`;
+
+       
+
         axios.get(
-            `${API_URL}/api/workouts`,
+            url,
             { headers: { Authorization: `Bearer ${storedToken}` } }
         )
             .then((response) => {
+                
                 setWorkouts(response.data);
+
             })
             .catch((error) => console.log(error));
     };
 
     useEffect(() => {
         getAllWorkouts();
-    }, []);
+    }, [disciplineId]); // ✅ Agregar disciplineId como dependencia
 
     const handleEdit = (workoutId) => {
         navigate(`/workouts/edit/${workoutId}`);
@@ -68,16 +86,20 @@ function WorkoutListPage() {
         <div className="WorkoutListPage">
             <AddWorkout refreshWorkouts={getAllWorkouts} />
 
-            {workouts.map((workout) => (
-                <WorkoutCard 
-                 key={workout._id}
-                 workout={workout}
-                 onEdit={handleEdit}
-                 onView={handleView}
-                 onDelete={handleDelete}
-                 refreshWorkouts={getAllWorkouts}
-                 />
-            ))}
+            {workouts.length === 0 ? (
+                <p>No workouts found for this discipline</p>
+            ) : (
+                workouts.map((workout) => (
+                    <WorkoutCard
+                        key={workout._id}
+                        workout={workout}
+                        onEdit={handleEdit}
+                        onView={handleView}
+                        onDelete={handleDelete}
+                        refreshWorkouts={getAllWorkouts}
+                    />
+                ))
+            )}
         </div>
     );
 }

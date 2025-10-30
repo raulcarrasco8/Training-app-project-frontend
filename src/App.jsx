@@ -6,7 +6,7 @@ import IsPrivate from "./components/IsPrivate";
 import IsAnon from "./components/IsAnon"
 import WorkoutListPage from "./pages/WorkoutListPage";
 import WorkoutDetailsPage from "./pages/WorkoutDetailsPage";  
-import EditWorkoutPage from "./pages/EditWorkoutpage";   
+import EditWorkoutPage from "./pages/EditWorkoutPage";   
 import './App.css';
 import HomePage from "./pages/HomePage";
 import DisciplineListPage from "./pages/DisciplineListPage";
@@ -22,7 +22,7 @@ function App() {
         <Route path="/workouts/:workoutId" element={<IsPrivate> <WorkoutDetailsPage /> </IsPrivate>} />
         <Route path="/workouts/edit/:workoutId" element={<IsPrivate> <EditWorkoutPage /> </IsPrivate>} />
         <Route path="/disciplines" element={<IsPrivate> <DisciplineListPage /> </IsPrivate> } />
-        <Route path="/disciplines/:disciplinesId" element={<IsPrivate> <DisciplineListPage /> </IsPrivate>} />
+        <Route path="/discipline/:disciplineId" element={<IsPrivate> <DisciplineListPage /> </IsPrivate>} />
         <Route path="/login" element={<IsAnon> <LoginPage /> </IsAnon>} />
         <Route path="/signup" element={<IsAnon> <SignupPage /> </IsAnon>} />
 

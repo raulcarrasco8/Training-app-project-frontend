@@ -33,14 +33,14 @@ function DisciplineListPage() {
     }, []);
 
     const handleView = (disciplineId) => {
-        navigate(`/discipline/${discipline}`);
+        navigate(`/workouts?discipline=${disciplineId}`);
     }
 
     const handleDelete = (disciplineId) => {
         const storedToken = localStorage.getItem('authToken');
 
         axios
-            .delete(`${API_URL}/api/disciplines/${disciplineId}`, {
+            .delete(`${API_URL}/api/discipline/${disciplineId}`, {
                 headers: { Authorization: `Bearer ${storedToken}` }
             })
             .then(() => {
@@ -61,18 +61,18 @@ function DisciplineListPage() {
             });
     };
 
-    return(
+    return (
         <div className="DisciplineListPage">
             <AddDiscipline refreshDiscipline={getAllDisciplines} />
 
-             {discipline.map((discipline) => (
-                <DisciplineCard 
-                 key={discipline._id}
-                 discipline={discipline}
-                 onView={handleView}
-                 onDelete={handleDelete}
-                 refreshDiscipline={getAllDisciplines}
-                 />
+            {discipline.map((discipline) => (
+                <DisciplineCard
+                    key={discipline._id}
+                    discipline={discipline}
+                    onView={handleView}
+                    onDelete={handleDelete}
+                    refreshDiscipline={getAllDisciplines}
+                />
             ))}
         </div>
     )

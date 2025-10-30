@@ -1,0 +1,28 @@
+
+
+
+
+.DisciplineCard {
+  font-family: Arial, sans-serif;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px;
+  width: calc(33% - 40px);
+  text-align: left;
+  display: inline-block;
+  background-color: #f9fafb;
+}
+
+.DisciplineCard button {
+  margin-right: 10px;
+}
+
+.DisciplineCard h3 {
+  margin-top: 0;
+  text-align: center;
+}
+
+.DisciplineCard img {
+  max-width: 100%;
+}

@@ -1,0 +1,18 @@
+
+
+.LoginPage {
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background-color: #4382c0;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 800px;
+  margin: 2rem auto;
+  text-align: center;
+  transition: all 0.3s ease;
+  color: #0b3b6f;
+}
+
+.LoginPage h1 {
+    color: #0b3b6f;
+}

@@ -2,17 +2,17 @@
 
 
 import { Link } from "react-router-dom";
-import { useContext } from "react";                     
+import { useContext, useState, useEffect } from "react";                     
 import { AuthContext } from "../context/auth.context";  
-import { Button } from "@mantine/core";
+import { Button, Menu } from "@mantine/core";
 import "./Navbar.css";
+import axios from "axios";
 
 function Navbar() {
-  const {
-    isLoggedIn,
-    user,                   
-    logOutUser              
-  } = useContext(AuthContext);
+  const { isLoggedIn, user, logOutUser } = useContext(AuthContext);
+
+
+
 
   return (
     <nav className="navbar">
@@ -24,6 +24,10 @@ function Navbar() {
         <>
           <Link to="/workouts">
             <Button color="orange" variant="light">Workouts</Button>
+          </Link>
+
+          <Link to="/disciplines">
+            <Button color="orange" variant="light">Disciplines</Button>
           </Link>
 
           <Button color="orange" variant="light" onClick={logOutUser}>Logout</Button>

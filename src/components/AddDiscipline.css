@@ -1,0 +1,53 @@
+
+
+
+
+.CreateDiscipline {
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 700px;
+  margin: 2rem auto;
+  text-align: center;
+  transition: all 0.3s ease;
+  color: #0b3b6f;
+}
+
+.CreateDiscipline {
+  transform: translateY(-2px);
+  box-shadow: #e7e6e6 0px 2px 2px;
+}
+
+.CreateDiscipline input,
+.CreateDiscipline textarea,
+.CreateDiscipline select {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 1rem;
+  outline: none;
+  margin-bottom: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.CreateDiscipline button {
+  background-color: #0b5fff;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  margin: 0.5rem;
+  font-size: 1rem;
+}
+
+.CreateDiscipline button:hover {
+  background-color: #094ac1;
+}
+
+.CreateDiscipline h3 {
+  color: #0b3b6f;
+  margin-bottom: 1.5rem;
+}

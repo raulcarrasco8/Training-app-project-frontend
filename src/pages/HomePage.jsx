@@ -1,6 +1,9 @@
 import React from "react";
 import "./HomePage.css";
-
+import "../components/AddDiscipline"
+import AddDiscipline from "../components/AddDiscipline";
+import { Button } from "@mantine/core";
+import { Link } from "react-router-dom";
 export default function HomePage() {
   return (
     <main className="home">
@@ -13,6 +16,11 @@ export default function HomePage() {
         </div>
       </section>
 
+     
+      <div className="homeDisciplines">
+        <a className="AddDisciplines-btn" href="/disciplines">Añade tus deportes</a>
+      </div>
+      
       <section className="features">
         <h2>Características</h2>
         <ul>

@@ -4,6 +4,8 @@ import axios from "axios";
 import { notifications } from '@mantine/notifications';
 import { Button, TextInput, Textarea } from '@mantine/core';
 import "./EditWorkoutPage.css";
+import { Select } from "@mantine/core";
+
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -15,7 +17,21 @@ function EditWorkoutPage() {
 
     const { workoutId } = useParams();
     const navigate = useNavigate();
+    const [disciplineArray, setDisciplineArray] = useState([]);
 
+        //Cargar las disciplinas disponibles
+    useEffect(() => {
+        const storedToken = localStorage.getItem("authToken");
+
+        axios
+            .get(`${API_URL}/api/disciplines`, {
+                headers: { Authorization: `Bearer ${storedToken}` },
+            })
+            .then((res) => setDisciplineArray(res.data))
+            .catch((err) => console.error("Error fetching disciplines", err));
+    }, []);
+
+        //Cargar el Workout a editar
     useEffect(() => {
         const storedToken = localStorage.getItem('authToken');
         axios
@@ -77,10 +93,15 @@ function EditWorkoutPage() {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                 />
-                <TextInput
+                <Select
                     label="Discipline"
+                    placeholder="Select a discipline"
                     value={discipline}
-                    onChange={(e) => setDiscipline(e.target.value)}
+                    onChange={setDiscipline}
+                    data={disciplineArray.map(d => ({
+                        label: d.name,
+                        value: d._id,
+                    }))}
                 />
                 <Textarea
                     label="Exercises"

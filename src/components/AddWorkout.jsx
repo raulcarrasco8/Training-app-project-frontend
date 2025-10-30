@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { TextInput, Textarea, Button } from '@mantine/core'; 
+import { TextInput, Textarea, Button, Select } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import "./AddWorkout.css";
 import { NativeSelect } from '@mantine/core';
@@ -12,6 +12,19 @@ function AddWorkout(props) {
     const [description, setDescription] = useState("");
     const [discipline, setDiscipline] = useState("");
     const [exercises, setExercises] = useState("");
+
+    const [disciplineArray, setDisciplineArray] = useState([]);
+
+    useEffect(() => {
+        const storedToken = localStorage.getItem("authToken");
+
+        axios
+            .get(`${API_URL}/api/disciplines`, {
+                headers: { Authorization: `Bearer ${storedToken}` },
+            })
+            .then((res) => setDisciplineArray(res.data))
+            .catch((err) => console.error("Error fetching disciplines", err));
+    }, []);
 
     const handleTitle = (e) => {
         e.preventDefault();
@@ -51,28 +64,38 @@ function AddWorkout(props) {
     return (
         <form className="CreateWorkout" onSubmit={handleTitle}>
             <h3>Create your Workout</h3>
+
             <TextInput
+                label="Title"
                 placeholder="Title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
             />
-            <NativeSelect
+
+            <Select
                 label="Discipline"
-                value={discipline}
-                onChange={(e) => setDiscipline(e.target.value)}
-                data={['Swim', 'Cycling', 'Run', 'Gym']}
+                placeholder="Select a discipline"
+                onChange={setDiscipline}
+                data={disciplineArray.map(d => ({
+                        label: d.name,
+                        value: d._id, 
+                    }))
+                }
             />
+
             <Textarea
+                label="Description"
                 placeholder="Description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
             />
             <TextInput
+                label="Exercises"
                 placeholder="Exercises"
                 value={exercises}
                 onChange={(e) => setExercises(e.target.value)}
             />
-            <Button type="submit">Add Workout</Button> 
+            <Button type="submit">Add Workout</Button>
         </form>
     );
 }

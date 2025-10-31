@@ -6,7 +6,7 @@ import IsPrivate from "./components/IsPrivate";
 import IsAnon from "./components/IsAnon"
 import WorkoutListPage from "./pages/WorkoutListPage";
 import WorkoutDetailsPage from "./pages/WorkoutDetailsPage";  
-import EditWorkoutPage from "./pages/EditWorkoutPage";   
+import EditWorkoutPage from "./pages/EditWorkoutpage";   
 import './App.css';
 import HomePage from "./pages/HomePage";
 import DisciplineListPage from "./pages/DisciplineListPage";

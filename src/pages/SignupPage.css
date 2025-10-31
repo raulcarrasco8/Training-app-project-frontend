@@ -44,3 +44,7 @@
   font-weight: 600;
   cursor: pointer;
 }
+
+.SignupButton:hover{
+  background: #094ac1;
+}

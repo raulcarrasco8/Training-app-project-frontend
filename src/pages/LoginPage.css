@@ -1,18 +1,49 @@
 
-
 .LoginPage {
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  background-color: #4382c0;
-  border: 1px solid #e5e7eb;
-  border-radius: 16px;
-  padding: 2rem;
-  max-width: 800px;
   margin: 2rem auto;
-  text-align: center;
-  transition: all 0.3s ease;
-  color: #0b3b6f;
+  padding: 2rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #f6f9ff 0%, hwb(219 91% 0%) 100%);
+
 }
 
 .LoginPage h1 {
-    color: #0b3b6f;
+  text-align: center;
+  margin-bottom: 3.5rem;
+  color: #0b3b6f;
+}
+
+.LoginPage form {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.LoginPage label {
+  flex: 0 0 auto;
+  align-self: center;
+  font-weight: 600;
+  color: #0b3b6f;
+}
+
+.LoginPage input {
+  flex: 1 1 auto;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: rgb(255, 244, 224);
+}
+
+.LoginPage Button {
+  background: #0b5fff;
+  color: #fff;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.LoginPage button:hover {
+  background: #094ac1;
 }

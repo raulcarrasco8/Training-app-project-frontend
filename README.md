@@ -1,76 +1,86 @@
+# 🏋️ Training App — Frontend
 
+A full stack MERN app to log and organize your workouts by discipline (running, cycling, swimming…).
 
-# 🏋️‍♂️ Training App — Frontend
+**🔗 Live demo:** https://app-training.vercel.app/
+**⚙️ Backend repo:** [Training App Backend](https://github.com/raulcarrasco8/Training-app-project-backend)
 
-## 📝 Descripción
-
-**Training App** es una aplicación que te permite registrar y organizar tus entrenamientos de manera sencilla.  
-Puedes crear distintas disciplinas (como correr, bici, natación, etc.) y asociar tus entrenamientos a cada una de ellas.  
-También puedes editar o eliminar tus entrenos, manteniendo toda tu información organizada y accesible.
-
-> ⚠️ Este repositorio contiene el **frontend** del proyecto (React + Vite).  
-> El **backend (API con Express y MongoDB)** se encuentra en este repositorio:  
-> 👉 [Training App Backend](https://github.com/raulcarrasco8/Training-app-project-backend)
+> ⏳ **Heads up:** the API runs on Render's free tier, so the first request may take ~50 seconds while the server wakes up. After that it runs normally.
 
 ---
 
-## ⚙️ Tecnologías utilizadas
+## ✨ Features
 
-- React  
-- Vite  
-- Mantine UI  
-- JavaScript  
-- HTML  
-- CSS  
+- User sign up and login with JWT authentication
+- Create custom disciplines (running, cycling, swimming…)
+- Full CRUD for workouts: create, edit and delete entries linked to each discipline
+- Responsive UI built with Mantine
+
+## 🛠️ Tech stack
+
+| Layer | Technologies |
+|---|---|
+| Frontend | React, Vite, Mantine UI, JavaScript, HTML, CSS |
+| Backend | Node.js, Express.js, MongoDB + Mongoose, JWT |
+| Deployment | Vercel (frontend), Render (API) |
+
+## 🧠 Technical decisions
+
+- **Mantine UI:** I used Mantine to reuse well-designed, ready-made components instead of building the UI from scratch. This let me spend more time on the app's logic and on shipping new features.
+- **React Context for auth:** the logged-in user and token live in a context, so any page can access them without prop drilling.
+- **Separate frontend and backend repos:** keeping the client and the API apart keeps each codebase clean and focused, and gives the project a clear structure if a team ever works on it, with frontend and backend developers able to work independently.
+
+## 🔮 What I'd improve today
+
+- [ ] Add tests (Jest + Supertest for the API, Playwright for end-to-end)
+- [ ] Set up CI with GitHub Actions
+- [ ] Migrate to TypeScript
 
 ---
 
-## 🚀 Instrucciones para ejecutar el proyecto localmente
+## 🚀 Run it locally
 
-1. **Clonar el repositorio**
+1. Clone the repo
 
-   ```bash
-   git clone https://github.com/raulcarrasco8/Training-app-project-frontend
+```bash
+git clone https://github.com/raulcarrasco8/Training-app-project-frontend
+cd Training-app-project-frontend
+```
 
-2. **Instalar dependencias**
+2. Install dependencies
 
-    npm install
+```bash
+npm install
+```
 
-3. **Configurar variables de entorno**
+3. Create a `.env` file in the project root pointing to your local backend:
 
-    Crea un archivo .env en la raíz del proyecto y añade:
-        VITE_API_URL=http://localhost:5005
+```env
+VITE_API_URL=http://localhost:5005
+```
 
-    Esta URL debe apuntar al servidor backend que tengas ejecutándose localmente.
+4. Start the dev server
 
-4. **Ejecutar la aplicación**
+```bash
+npm run dev
+```
 
-    npm run dev
+5. Open http://localhost:5173
 
-5. **Abre en tu navegador para ver la app**
+## 📂 Project structure
 
-    http://localhost:5173 
+```
+src/
+├── assets/
+├── components/
+├── context/
+├── pages/
+├── App.css
+├── App.jsx
+├── index.css
+└── main.jsx
+```
 
-## 🌐 Demo
+## 👨‍💻 Author
 
-Frontend desplegado en Vercel:
-👉 https://app-training.vercel.app/
-
-Backend (API) desplegado en Render:
-👉 https://training-app-project-backend.onrender.com
-
-## 📂 Estructura básica del proyecto
-
-    src/
- ├── assets
- ├── components/
- ├── context
- ├── pages/
- ├── App.css
- ├── App.jsx
- ├── index.css
- └── main.jsx
-
-## 👨‍💻 Autor
-
-Proyecto desarrollado por Raúl Carrasco.
+**Raúl Carrasco** — [LinkedIn](https://www.linkedin.com/in/raul-webdeveloper/) · [GitHub](https://github.com/raulcarrasco8)

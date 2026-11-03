@@ -31,10 +31,22 @@ function AddDiscipline(props) {
                 setImage("");
 
                 notifications.show({
-                    title: 'Succes',
-                    message: ''
-                })
+                    title: 'Success',
+                    message: 'Discipline created successfully!',
+                    color: 'green'
+                });
+
+                // Refrescar la lista de disciplinas del padre
+                props.refreshDiscipline?.();
             })
+            .catch((error) => {
+                console.log(error);
+                notifications.show({
+                    title: 'Error',
+                    message: error.response?.data?.message || 'Could not create the discipline',
+                    color: 'red'
+                });
+            });
     }
 
     return (
@@ -56,6 +68,7 @@ function AddDiscipline(props) {
                 <TextInput
                     label="Image URL"
                     placeholder="image"
+                    value={image}
                     onChange={(e) => setImage(e.target.value)}
                 />
                 <Button type="submit">Add Discipline</Button> 

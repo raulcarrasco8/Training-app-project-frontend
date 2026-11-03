@@ -40,7 +40,7 @@ function DisciplineListPage() {
         const storedToken = localStorage.getItem('authToken');
 
         axios
-            .delete(`${API_URL}/api/discipline/${disciplineId}`, {
+            .delete(`${API_URL}/api/disciplines/${disciplineId}`, {
                 headers: { Authorization: `Bearer ${storedToken}` }
             })
             .then(() => {
@@ -53,10 +53,12 @@ function DisciplineListPage() {
             })
             .catch((error) => {
                 console.log(error);
+                // 409: la disciplina tiene workouts asociados -> mostrar el aviso del backend
+                const isConflict = error.response?.status === 409;
                 notifications.show({
-                    title: 'Error',
-                    message: 'Could not delete Discipline',
-                    color: 'red'
+                    title: isConflict ? 'Discipline in use' : 'Error',
+                    message: error.response?.data?.message || 'Could not delete Discipline',
+                    color: isConflict ? 'orange' : 'red'
                 });
             });
     };

@@ -42,7 +42,8 @@ function EditWorkoutPage() {
                 const workout = response.data;
                 setTitle(workout.title);
                 setDescription(workout.description);
-                setDiscipline(workout.discipline);
+                // discipline viene populado (objeto) o null si es huérfano
+                setDiscipline(workout.discipline?._id ?? null);
                 setExercises(workout.exercises);
             })
             .catch((error) => console.log(error));

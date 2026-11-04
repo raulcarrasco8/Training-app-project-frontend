@@ -8,25 +8,25 @@ export default function HomePage() {
   return (
     <main className="home">
       <section className="hero">
-        <h1 className="hero-title">Bienvenido a Training App</h1>
-        <p className="hero-subtitle">Diseña, registra y sigue tus entrenamientos fácilmente.</p>
+        <h1 className="hero-title">Welcome to Training App</h1>
+        <p className="hero-subtitle">Plan, log and review your workouts across every discipline.</p>
         <div className="hero-actions">
-          <a className="cta-btn" href="/signup">Comenzar</a>
-          <a className="ghost-btn" href="/workouts">Ver entrenamientos</a>
+          <a className="cta-btn" href="/signup">Get started</a>
+          <a className="ghost-btn" href="/workouts">View workouts</a>
         </div>
       </section>
 
      
       <div className="homeDisciplines">
-        <a className="AddDisciplines-btn" href="/disciplines">Añade tus deportes</a>
+        <a className="AddDisciplines-btn" href="/disciplines">Manage your disciplines</a>
       </div>
       
       <section className="features">
-        <h2>Características</h2>
+        <h2>Features</h2>
         <ul>
-          <li>Crear y editar rutinas</li>
-          <li>Historico de entrenamientos</li>
-          <li>Interfaz simple y responsiva</li>
+          <li>Create and edit workouts</li>
+          <li>Full workout history</li>
+          <li>Simple, responsive interface</li>
         </ul>
       </section>
     </main>

@@ -1,0 +1,13 @@
+// Logo de la app: tres "calles" de pista, la central en color ámbar
+function BrandMark({ size = 28 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 32 32" aria-hidden="true">
+      <rect width="32" height="32" rx="8" fill="#14213D" />
+      <rect x="6" y="9" width="20" height="3" rx="1.5" fill="#0E7C86" />
+      <rect x="6" y="14.5" width="20" height="3" rx="1.5" fill="#F2A541" />
+      <rect x="6" y="20" width="20" height="3" rx="1.5" fill="#0E7C86" />
+    </svg>
+  );
+}
+
+export default BrandMark;

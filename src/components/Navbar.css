@@ -1,34 +1,61 @@
-.navbar {
+.brand {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1rem;
-  border-bottom: 1px solid rgba(0,0,0,0.06);
-  background: #fff;
+  gap: 0.6rem;
+  text-decoration: none;
+  color: var(--app-ink);
 }
 
-.nav-left,
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
+.brand-name {
+  font-family: "Barlow Semi Condensed", Barlow, sans-serif;
+  font-weight: 700;
+  font-size: 1.35rem;
+  letter-spacing: 0.01em;
+  color: var(--app-ink);
 }
 
-.username {
-  margin-left: 0.5rem;
-  font-weight: 600;
-  color: #333;
+/* Enlace de sección: la "calle" activa se marca con una línea inferior */
+.nav-link {
+  position: relative;
+  padding: 0.35rem 0;
+  font-weight: 500;
+  color: #4a5670;
+  text-decoration: none;
+  transition: color 150ms ease;
 }
 
+.nav-link:hover {
+  color: var(--app-ink);
+}
 
-@media (max-width: 540px) {
-  .navbar {
-    flex-direction: column;
-    align-items: stretch;
-    text-align: center;
-  }
-  .nav-left, .nav-right {
-    justify-content: center;
-  }
+.nav-link.active {
+  color: var(--app-ink);
+}
+
+.nav-link.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--mantine-color-lane-6);
+}
+
+.nav-link:focus-visible,
+.brand:focus-visible,
+.user-button:focus-visible {
+  outline: 2px solid var(--mantine-color-lane-6);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.user-button {
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--mantine-radius-md);
+}
+
+.user-button:hover {
+  background: var(--mantine-color-gray-0);
 }

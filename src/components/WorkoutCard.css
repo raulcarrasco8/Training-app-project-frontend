@@ -1,21 +1,31 @@
-
-
-.WorkoutCard {
-  font-family: Arial, sans-serif;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 20px;
-  margin: 20px;
-  text-align: left;
-  display: inline-block;
-  background-color: #f9fafb;
+/* Línea de color a la izquierda: la "calle" del workout */
+.workout-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-left: 4px solid var(--mantine-color-lane-6);
+  background: #fff;
 }
 
-.WorkoutCard button {
-  margin-right: 10px;
+.workout-card__title {
+  font-family: "Barlow Semi Condensed", Barlow, sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 1.15;
+  color: var(--app-ink);
+  text-decoration: none;
 }
 
-.WorkoutCard h3 {
-  margin-top: 0;
-  text-align: center;
+.workout-card__title:hover {
+  color: var(--mantine-color-lane-7);
+}
+
+.workout-card__title:focus-visible {
+  outline: 2px solid var(--mantine-color-lane-6);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.workout-card__description {
+  flex: 1;
 }

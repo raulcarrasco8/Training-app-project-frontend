@@ -4,7 +4,7 @@ import { modals } from "@mantine/modals";
 import "./DisciplineCard.css";
 
 // Tarjeta tipo "póster deportivo": foto a sangre, degradado y nombre grande
-function DisciplineCard({ discipline, onView, onDelete }) {
+function DisciplineCard({ discipline, onView, onEdit, onDelete }) {
   // Si la imagen falla (URL rota), mostramos un fondo de color en su lugar
   const [imageFailed, setImageFailed] = useState(false);
 
@@ -48,6 +48,9 @@ function DisciplineCard({ discipline, onView, onDelete }) {
         <Group gap="xs" mt="md">
           <Button size="xs" variant="white" color="dark" onClick={() => onView(discipline._id)}>
             View workouts
+          </Button>
+          <Button size="xs" variant="subtle" className="discipline-card__delete" onClick={() => onEdit(discipline)}>
+            Edit
           </Button>
           <Button size="xs" variant="subtle" className="discipline-card__delete" onClick={openDeleteModal}>
             Delete

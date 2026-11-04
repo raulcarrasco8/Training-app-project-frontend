@@ -4,7 +4,7 @@ import axios from "axios";
 import { Alert, Button, Group, Modal, Paper, SimpleGrid, Skeleton, Stack, Text, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
-import AddDiscipline from "../components/AddDiscipline";
+import DisciplineForm from "../components/DisciplineForm";
 import DisciplineCard from "../components/DisciplineCard";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -14,6 +14,8 @@ function DisciplineListPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState(false);
   const [modalOpened, { open: openModal, close: closeModal }] = useDisclosure(false);
+  // null = crear una nueva; objeto = la disciplina que se está editando
+  const [editingDiscipline, setEditingDiscipline] = useState(null);
   const navigate = useNavigate();
 
   const getAllDisciplines = () => {
@@ -42,10 +44,52 @@ function DisciplineListPage() {
     navigate(`/workouts?discipline=${disciplineId}`);
   };
 
-  const handleCreated = () => {
-    closeModal();
-    getAllDisciplines();
+  const authHeaders = () => ({
+    headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
+  });
+
+  const openCreateModal = () => {
+    setEditingDiscipline(null);
+    openModal();
   };
+
+  const openEditModal = (discipline) => {
+    setEditingDiscipline(discipline);
+    openModal();
+  };
+
+  const showSaveError = (error, action) => {
+    console.log(error);
+    notifications.show({
+      title: `Couldn't ${action} the discipline`,
+      message: error.response?.data?.message || "Check the fields and try again.",
+      color: "red",
+    });
+  };
+
+  const handleCreate = (values) =>
+    axios
+      .post(`${API_URL}/api/disciplines`, values, authHeaders())
+      .then(() => {
+        notifications.show({
+          title: "Discipline created",
+          message: `${values.name} is ready for your workouts.`,
+          color: "lane",
+        });
+        closeModal();
+        getAllDisciplines();
+      })
+      .catch((error) => showSaveError(error, "create"));
+
+  const handleUpdate = (values) =>
+    axios
+      .put(`${API_URL}/api/disciplines/${editingDiscipline._id}`, values, authHeaders())
+      .then(() => {
+        notifications.show({ title: "Discipline saved", message: values.name, color: "lane" });
+        closeModal();
+        getAllDisciplines();
+      })
+      .catch((error) => showSaveError(error, "save"));
 
   const handleDelete = (disciplineId) => {
     const storedToken = localStorage.getItem("authToken");
@@ -81,7 +125,7 @@ function DisciplineListPage() {
           <Title order={1}>Disciplines</Title>
           <Text c="dimmed">Group your workouts by sport.</Text>
         </div>
-        <Button onClick={openModal}>New discipline</Button>
+        <Button onClick={openCreateModal}>New discipline</Button>
       </Group>
 
       {loadError && (
@@ -102,7 +146,7 @@ function DisciplineListPage() {
           <Text c="dimmed" mt="xs" mb="lg">
             Create your first discipline to start logging workouts.
           </Text>
-          <Button onClick={openModal}>New discipline</Button>
+          <Button onClick={openCreateModal}>New discipline</Button>
         </Paper>
       ) : (
         <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="lg">
@@ -111,14 +155,27 @@ function DisciplineListPage() {
               key={discipline._id}
               discipline={discipline}
               onView={handleView}
+              onEdit={openEditModal}
               onDelete={handleDelete}
             />
           ))}
         </SimpleGrid>
       )}
 
-      <Modal opened={modalOpened} onClose={closeModal} title="New discipline" centered>
-        <AddDiscipline onCreated={handleCreated} onCancel={closeModal} />
+      <Modal
+        opened={modalOpened}
+        onClose={closeModal}
+        title={editingDiscipline ? "Edit discipline" : "New discipline"}
+        centered
+      >
+        {/* key: el formulario se reinicia al cambiar entre crear y editar otra disciplina */}
+        <DisciplineForm
+          key={editingDiscipline?._id ?? "new"}
+          initialValues={editingDiscipline ?? {}}
+          onSubmit={editingDiscipline ? handleUpdate : handleCreate}
+          onCancel={closeModal}
+          submitLabel={editingDiscipline ? "Save changes" : "Create discipline"}
+        />
       </Modal>
     </Stack>
   );

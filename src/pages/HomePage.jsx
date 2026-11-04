@@ -1,7 +1,5 @@
 import React from "react";
 import "./HomePage.css";
-import "../components/AddDiscipline"
-import AddDiscipline from "../components/AddDiscipline";
 import { Button } from "@mantine/core";
 import { Link } from "react-router-dom";
 export default function HomePage() {

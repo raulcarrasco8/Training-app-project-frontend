@@ -1,15 +1,11 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Box, Button, Center, Group, Loader, Stack, Text, TextInput, Textarea } from "@mantine/core";
-import { notifications } from "@mantine/notifications";
 
-const API_URL = import.meta.env.VITE_API_URL;
-
-// Formulario para crear una disciplina (se muestra dentro de un modal)
-function AddDiscipline({ onCreated, onCancel }) {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [imgUrl, setImgUrl] = useState("");
+// Formulario compartido para crear y editar una disciplina (se muestra dentro de un modal)
+function DisciplineForm({ initialValues = {}, onSubmit, onCancel, submitLabel }) {
+  const [name, setName] = useState(initialValues.name ?? "");
+  const [description, setDescription] = useState(initialValues.description ?? "");
+  const [imgUrl, setImgUrl] = useState(initialValues.imgUrl ?? "");
   const [isSubmitting, setIsSubmitting] = useState(false);
   // Estado de la vista previa: idle (sin URL) | loading | ok | error
   const [imageStatus, setImageStatus] = useState("idle");
@@ -25,32 +21,10 @@ function AddDiscipline({ onCreated, onCancel }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-
-    const storedToken = localStorage.getItem("authToken");
-
-    axios
-      .post(
-        `${API_URL}/api/disciplines`,
-        { name, description, imgUrl: trimmedUrl },
-        { headers: { Authorization: `Bearer ${storedToken}` } }
-      )
-      .then(() => {
-        notifications.show({
-          title: "Discipline created",
-          message: `${name} is ready for your workouts.`,
-          color: "lane",
-        });
-        onCreated?.();
-      })
-      .catch((error) => {
-        console.log(error);
-        notifications.show({
-          title: "Couldn't create the discipline",
-          message: error.response?.data?.message || "Check the fields and try again.",
-          color: "red",
-        });
-      })
-      .finally(() => setIsSubmitting(false));
+    // onSubmit devuelve una promesa; al terminar, quitamos el estado de carga
+    Promise.resolve(onSubmit({ name, description, imgUrl: trimmedUrl })).finally(() =>
+      setIsSubmitting(false)
+    );
   };
 
   return (
@@ -115,7 +89,7 @@ function AddDiscipline({ onCreated, onCancel }) {
             Cancel
           </Button>
           <Button type="submit" loading={isSubmitting} disabled={imageStatus === "error"}>
-            Create discipline
+            {submitLabel}
           </Button>
         </Group>
       </Stack>
@@ -123,4 +97,4 @@ function AddDiscipline({ onCreated, onCancel }) {
   );
 }
 
-export default AddDiscipline;
+export default DisciplineForm;

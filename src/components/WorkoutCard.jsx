@@ -1,41 +1,65 @@
-import { Button } from '@mantine/core'; 
+import { Link } from "react-router-dom";
+import { Badge, Button, Group, Paper, Text } from "@mantine/core";
+import { modals } from "@mantine/modals";
+import { formatDate } from "../utils/formatDate";
 import "./WorkoutCard.css";
-import { modals } from '@mantine/modals';
-import { Text } from '@mantine/core';
 
-
-function WorkoutCard({workout, onEdit, onView, onDelete}) {
-
-     // Función para abrir el modal de confirmación antes de eliminar
-  const openDeleteModal = (id) => {
+function WorkoutCard({ workout, onEdit, onDelete }) {
+  const openDeleteModal = () => {
     modals.openConfirmModal({
-      title: 'Confirm delete',
-      classNames: {
-        root: 'custom-modal-root'
-      },
+      title: "Delete workout",
       centered: true,
       children: (
         <Text size="sm">
-          Are you sure you want to delete <strong>{workout.title}</strong>? This action cannot be undone.
+          Delete <strong>{workout.title}</strong>? This can't be undone.
         </Text>
       ),
-      labels: { confirm: 'Delete', cancel: 'Cancel' },
-      confirmProps: { color: 'red' },
-      onCancel: () => console.log('Delete cancelled'),
-      onConfirm: () => onDelete(id),
+      labels: { confirm: "Delete", cancel: "Cancel" },
+      confirmProps: { color: "red" },
+      onConfirm: () => onDelete(workout._id),
     });
   };
 
-    return (
-        <div className="WorkoutCard">
-            <h3>{workout.title}</h3>
-            <p><strong>Description:</strong> {workout.description}</p>
-            <p><strong>Discipline:</strong> {workout.discipline?.name || "No discipline"}</p>
-            <Button color="orange" variant='outline' onClick={() => onView(workout._id)}>View Details</Button> 
-            <Button color="blue" variant='outline' onClick={() => onEdit(workout._id)}>Edit</Button> 
-            <Button color="red" variant="outline" onClick={() => openDeleteModal(workout._id)}>Delete</Button> 
-        </div>
-    );
+  const exerciseCount = workout.exercises
+    ? workout.exercises.split("\n").filter((line) => line.trim()).length
+    : 0;
+
+  return (
+    <Paper withBorder radius="lg" p="lg" className="workout-card">
+      <Group justify="space-between" mb="sm" wrap="nowrap">
+        <Badge variant="light" color="lane" radius="sm">
+          {workout.discipline?.name || "No discipline"}
+        </Badge>
+        {workout.createdAt && (
+          <Text size="xs" c="dimmed">
+            {formatDate(workout.createdAt)}
+          </Text>
+        )}
+      </Group>
+
+      <Link to={`/workouts/${workout._id}`} className="workout-card__title">
+        {workout.title}
+      </Link>
+
+      <Text size="sm" c="dimmed" mt={6} lineClamp={3} className="workout-card__description">
+        {workout.description}
+      </Text>
+
+      <Group justify="space-between" mt="lg">
+        <Text size="xs" c="dimmed">
+          {exerciseCount} {exerciseCount === 1 ? "exercise" : "exercises"}
+        </Text>
+        <Group gap={4}>
+          <Button size="xs" variant="subtle" color="dark" onClick={() => onEdit(workout._id)}>
+            Edit
+          </Button>
+          <Button size="xs" variant="subtle" color="red" onClick={openDeleteModal}>
+            Delete
+          </Button>
+        </Group>
+      </Group>
+    </Paper>
+  );
 }
 
 export default WorkoutCard;

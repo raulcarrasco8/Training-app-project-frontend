@@ -1,32 +1,30 @@
-
-.WorkoutDetailsPage {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background: linear-gradient(135deg, #f6f9ff 0%, hwb(219 91% 0%) 100%);
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(30, 60, 120, 0.08);
+.workout-hero {
+  position: relative;
+  min-height: 200px;
+  border-radius: var(--mantine-radius-lg);
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--mantine-color-lane-7), var(--app-ink));
+  isolation: isolate;
+  display: flex;
+  align-items: flex-end;
 }
 
-
-.WorkoutDetailsPage h2 {
-  font-size: 1.8rem;
-  margin-bottom: 2rem;
-  color: #0b3b6f;
-  font-size: 2rem;
-}
-
-.WorkoutDetailsPage p {
-  color: #6b7280;
-}
-
-.WorkoutDetailsPage input,
-.WorkoutDetailsPage textarea,
-.WorkoutDetailsPage select {
+.workout-hero__image {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  padding: 1rem;
-  border-radius: 8px;
-  border: 1px solid #d1d5db;
-  font-size: 1rem;
-  margin-bottom: 1.5rem;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+}
+
+.workout-hero__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to top, rgba(20, 33, 61, 0.92) 0%, rgba(20, 33, 61, 0.45) 60%, rgba(20, 33, 61, 0.15) 100%);
+}
+
+.workout-hero__content {
+  padding: 1.5rem;
 }

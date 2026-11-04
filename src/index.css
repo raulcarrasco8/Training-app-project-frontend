@@ -12,7 +12,3 @@ body {
   background-color: var(--app-bg);
   color: var(--app-ink);
 }
-
-.custom-modal-root {
-  width: 100vw;
-}

@@ -1,119 +1,91 @@
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { notifications } from '@mantine/notifications';
-import { Button, TextInput, Textarea } from '@mantine/core';
-import "./EditWorkoutPage.css";
-import { Select } from "@mantine/core";
-
+import { Anchor, Paper, Skeleton, Stack, Text, Title } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
+import WorkoutForm from "../components/WorkoutForm";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+const authHeaders = () => ({
+  headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
+});
+
 function EditWorkoutPage() {
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [discipline, setDiscipline] = useState("");
-    const [exercises, setExercises] = useState("");
+  const [workout, setWorkout] = useState(null);
+  const [disciplines, setDisciplines] = useState([]);
+  const [notFound, setNotFound] = useState(false);
+  const { workoutId } = useParams();
+  const navigate = useNavigate();
 
-    const { workoutId } = useParams();
-    const navigate = useNavigate();
-    const [disciplineArray, setDisciplineArray] = useState([]);
+  useEffect(() => {
+    axios
+      .get(`${API_URL}/api/disciplines`, authHeaders())
+      .then((response) => setDisciplines(response.data))
+      .catch((error) => console.log(error));
+  }, []);
 
-        //Cargar las disciplinas disponibles
-    useEffect(() => {
-        const storedToken = localStorage.getItem("authToken");
+  useEffect(() => {
+    axios
+      .get(`${API_URL}/api/workouts/${workoutId}`, authHeaders())
+      .then((response) => setWorkout(response.data))
+      .catch((error) => {
+        console.log(error);
+        setNotFound(true);
+      });
+  }, [workoutId]);
 
-        axios
-            .get(`${API_URL}/api/disciplines`, {
-                headers: { Authorization: `Bearer ${storedToken}` },
-            })
-            .then((res) => setDisciplineArray(res.data))
-            .catch((err) => console.error("Error fetching disciplines", err));
-    }, []);
+  const handleUpdate = (values) =>
+    axios
+      .put(`${API_URL}/api/workouts/${workoutId}`, values, authHeaders())
+      .then(() => {
+        notifications.show({ title: "Workout saved", message: values.title, color: "lane" });
+        navigate(`/workouts/${workoutId}`);
+      })
+      .catch((error) => {
+        console.log(error);
+        notifications.show({
+          title: "Couldn't save the workout",
+          message: error.response?.data?.message || "Check the fields and try again.",
+          color: "red",
+        });
+      });
 
-        //Cargar el Workout a editar
-    useEffect(() => {
-        const storedToken = localStorage.getItem('authToken');
-        axios
-            .get(`${API_URL}/api/workouts/${workoutId}`,
-                { headers: { Authorization: `Bearer ${storedToken}` } }
-            )
-            .then((response) => {
-                const workout = response.data;
-                setTitle(workout.title);
-                setDescription(workout.description);
-                // discipline viene populado (objeto) o null si es huérfano
-                setDiscipline(workout.discipline?._id ?? null);
-                setExercises(workout.exercises);
-            })
-            .catch((error) => console.log(error));
-    }, [workoutId]);
+  return (
+    <Stack gap="md" maw={640} mx="auto">
+      <Anchor component={Link} to={`/workouts/${workoutId}`} size="sm" c="dimmed">
+        Back to workout
+      </Anchor>
+      <Title order={1}>Edit workout</Title>
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const requestBody = { title, description, discipline, exercises };
-        const storedToken = localStorage.getItem('authToken');
-
-        axios
-            .put(`${API_URL}/api/workouts/${workoutId}`,
-                requestBody,
-                { headers: { Authorization: `Bearer ${storedToken}` } }
-            )
-            .then((response) => {
-                notifications.show({
-                    title: 'Success',
-                    message: 'Workout updated successfully!',
-                    color: 'green'
-                });
-                navigate(`/workouts/${workoutId}`);
-            })
-            .catch((error) => {
-                console.log(error);
-                notifications.show({
-                    title: 'Error',
-                    message: 'Could not update the workout',
-                    color: 'red'
-                });
-            });
-    };
-
-
-
-    return (
-        <div className="EditWorkoutPage">
-            <h2>Edit Workout</h2>
-
-            <form onSubmit={handleSubmit}>
-                <TextInput
-                    label="Title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                />
-                <Textarea
-                    label="Description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                />
-                <Select
-                    label="Discipline"
-                    placeholder="Select a discipline"
-                    value={discipline}
-                    onChange={setDiscipline}
-                    data={disciplineArray.map(d => ({
-                        label: d.name,
-                        value: d._id,
-                    }))}
-                />
-                <Textarea
-                    label="Exercises"
-                    value={exercises}
-                    onChange={(e) => setExercises(e.target.value)}
-                />
-                <Button color="green" variant="light" type="submit">Update Workout</Button>
-                <Button color="indigo" variant="light" type="button" onClick={() => navigate('/workouts')}>Return</Button>
-            </form>
-        </div>
-    );
+      <Paper withBorder radius="lg" p="xl">
+        {notFound ? (
+          <Text c="dimmed">This workout doesn't exist or was deleted.</Text>
+        ) : !workout ? (
+          <Stack>
+            <Skeleton height={36} />
+            <Skeleton height={36} />
+            <Skeleton height={80} />
+            <Skeleton height={120} />
+          </Stack>
+        ) : (
+          <WorkoutForm
+            disciplines={disciplines}
+            initialValues={{
+              title: workout.title,
+              // discipline viene populado (objeto) o null si es huérfano
+              discipline: workout.discipline?._id ?? null,
+              description: workout.description,
+              exercises: workout.exercises,
+            }}
+            onSubmit={handleUpdate}
+            onCancel={() => navigate(`/workouts/${workoutId}`)}
+            submitLabel="Save changes"
+          />
+        )}
+      </Paper>
+    </Stack>
+  );
 }
 
 export default EditWorkoutPage;

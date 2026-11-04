@@ -1,43 +1,61 @@
-import { Button } from "@mantine/core";
+import { useState } from "react";
+import { Button, Group, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
-import { Text } from "@mantine/core";
-import "./DisciplineCard.css"  
+import "./DisciplineCard.css";
 
-function DisciplineCard({discipline, onView, onDelete}) {
+// Tarjeta tipo "póster deportivo": foto a sangre, degradado y nombre grande
+function DisciplineCard({ discipline, onView, onDelete }) {
+  // Si la imagen falla (URL rota), mostramos un fondo de color en su lugar
+  const [imageFailed, setImageFailed] = useState(false);
 
-    const openDeleteModal = (id) => {
-        modals.openConfirmModal({
-          title: 'Confirm delete',
-          classNames: {
-            root: 'custom-modal-root'
-          },
-          centered: true,
-          children: (
-            <Text size="sm">
-              Are you sure you want to delete <strong>{discipline.name}</strong>? This action cannot be undone.
-            </Text>
-          ),
-          labels: { confirm: 'Delete', cancel: 'Cancel' },
-          confirmProps: { color: 'red' },
-          onCancel: () => console.log('Delete cancelled'),
-          onConfirm: () => onDelete(id),
-        });
-       
+  const openDeleteModal = () => {
+    modals.openConfirmModal({
+      title: "Delete discipline",
+      centered: true,
+      children: (
+        <Text size="sm">
+          Delete <strong>{discipline.name}</strong>? This can't be undone.
+        </Text>
+      ),
+      labels: { confirm: "Delete", cancel: "Cancel" },
+      confirmProps: { color: "red" },
+      onConfirm: () => onDelete(discipline._id),
+    });
+  };
 
-    };
+  return (
+    <article className="discipline-card">
+      {discipline.imgUrl && !imageFailed ? (
+        <img
+          className="discipline-card__image"
+          src={discipline.imgUrl}
+          alt=""
+          loading="lazy"
+          onError={() => setImageFailed(true)}
+        />
+      ) : (
+        <div className="discipline-card__image discipline-card__image--fallback" aria-hidden="true" />
+      )}
 
-        return (
-            <div className="DisciplineCard">
-                <h3>{discipline.name}</h3>
-                <p><strong>Description:</strong> {discipline.description}</p>
-                <img 
-                    src={discipline.imgUrl}
-                    alt={discipline.name}
-                 />
-                <Button color="orange" variant='outline' onClick={() => onView(discipline._id)}>View Workouts</Button>
-                <Button color="red" variant="outline" onClick={() => openDeleteModal(discipline._id)}>Delete</Button> 
-            </div>
-        );
+      <div className="discipline-card__overlay" />
+
+      <div className="discipline-card__content">
+        <h2 className="discipline-card__name">{discipline.name}</h2>
+        <Text className="discipline-card__description" size="sm" lineClamp={2}>
+          {discipline.description}
+        </Text>
+
+        <Group gap="xs" mt="md">
+          <Button size="xs" variant="white" color="dark" onClick={() => onView(discipline._id)}>
+            View workouts
+          </Button>
+          <Button size="xs" variant="subtle" className="discipline-card__delete" onClick={openDeleteModal}>
+            Delete
+          </Button>
+        </Group>
+      </div>
+    </article>
+  );
 }
 
 export default DisciplineCard;

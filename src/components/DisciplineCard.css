@@ -1,28 +1,67 @@
-
-
-
-
-.DisciplineCard {
-  font-family: Arial, sans-serif;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 20px;
-  margin: 20px;
-  width: calc(33% - 40px);
-  text-align: left;
-  display: inline-block;
-  background-color: #f9fafb;
+.discipline-card {
+  position: relative;
+  height: 320px;
+  border-radius: var(--mantine-radius-lg);
+  overflow: hidden;
+  background: var(--app-ink);
+  isolation: isolate;
 }
 
-.DisciplineCard button {
-  margin-right: 10px;
+/* La foto ocupa toda la tarjeta y se recorta para llenarla */
+.discipline-card__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
 }
 
-.DisciplineCard h3 {
-  margin-top: 0;
-  text-align: center;
+.discipline-card__image--fallback {
+  background: linear-gradient(135deg, var(--mantine-color-lane-7), var(--app-ink));
 }
 
-.DisciplineCard img {
-  max-width: 100%;
+/* Degradado para que el texto se lea sobre cualquier foto */
+.discipline-card__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    to top,
+    rgba(20, 33, 61, 0.92) 0%,
+    rgba(20, 33, 61, 0.55) 45%,
+    rgba(20, 33, 61, 0) 75%
+  );
+}
+
+.discipline-card__content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1.25rem;
+  color: #fff;
+}
+
+.discipline-card__name {
+  margin: 0 0 0.25rem;
+  font-family: "Barlow Semi Condensed", Barlow, sans-serif;
+  font-weight: 700;
+  font-size: 2rem;
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+}
+
+.discipline-card__description {
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 34ch;
+}
+
+.discipline-card__delete {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.discipline-card__delete:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
 }

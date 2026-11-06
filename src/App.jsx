@@ -27,8 +27,8 @@ function App() {
             <Route path="/workouts/:workoutId" element={<IsPrivate><WorkoutDetailsPage /></IsPrivate>} />
             <Route path="/workouts/edit/:workoutId" element={<IsPrivate><EditWorkoutPage /></IsPrivate>} />
             <Route path="/disciplines" element={<IsPrivate><DisciplineListPage /></IsPrivate>} />
-            <Route path="/login" element={<IsAnon><LoginPage /></IsAnon>} />
-            <Route path="/signup" element={<IsAnon><SignupPage /></IsAnon>} />
+            <Route path="/login" element={<IsAnon redirectTo="/workouts"><LoginPage /></IsAnon>} />
+            <Route path="/signup" element={<IsAnon redirectTo="/disciplines"><SignupPage /></IsAnon>} />
           </Routes>
         </Container>
       </AppShell.Main>

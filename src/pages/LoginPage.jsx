@@ -1,84 +1,76 @@
-// src/pages/LoginPage.jsx
-
-import { useState, useContext } from "react";
+import { useContext, useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Alert, Anchor, Button, PasswordInput, Stack, TextInput } from "@mantine/core";
 import { AuthContext } from "../context/auth.context";
-import "../pages/LoginPage.css";
+import AuthLayout from "../components/AuthLayout";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { storeToken, authenticateUser } = useContext(AuthContext);
 
-function LoginPage(props) {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [errorMessage, setErrorMessage] = useState(undefined);
+  const handleLoginSubmit = (e) => {
+    e.preventDefault();
+    setErrorMessage(null);
+    setIsSubmitting(true);
 
-    const navigate = useNavigate();
+    axios
+      .post(`${API_URL}/auth/login`, { email, password })
+      .then(async (response) => {
+        storeToken(response.data.authToken);
+        // Al activarse la sesión, IsAnon redirige a /workouts
+        await authenticateUser();
+      })
+      .catch((error) => {
+        console.error("Login error:", error);
+        setErrorMessage(error.response?.data?.message || "We couldn't log you in. Try again in a moment.");
+      })
+      .finally(() => setIsSubmitting(false));
+  };
 
-    const { storeToken, authenticateUser } = useContext(AuthContext);
-
-    const handleEmail = (e) => setEmail(e.target.value);
-    const handlePassword = (e) => setPassword(e.target.value);
-
-
-    const handleLoginSubmit = (e) => {
-        e.preventDefault();
-        const requestBody = { email, password };
-
-        axios.post(`${API_URL}/auth/login`, requestBody)
-            .then(async (response) => {
-                console.log('JWT token', response.data.authToken);
-                
-                // Almacenar el token
-                storeToken(response.data.authToken);
-                
-                try {
-                    // Esperar a que la autenticación se complete
-                    await authenticateUser();
-                    // Solo navegar después de que la autenticación sea exitosa
-                    navigate('/workouts');
-                } catch (err) {
-                    console.error("Error during authentication:", err);
-                    setErrorMessage("Authentication failed after login");
-                }
-            })
-            .catch((error) => {
-                console.error("Login error:", error);
-                const errorDescription = error.response?.data?.message || "An error occurred during login";
-                setErrorMessage(errorDescription);
-            });
-    };
-
-    return (
-        <div className="LoginPage">
-            <h1>Login</h1>
-
-            <form onSubmit={handleLoginSubmit}>
-                <label>Email:</label>
-                <input
-                    type="email"
-                    name="email"
-                    value={email}
-                    onChange={handleEmail}
-                />
-
-                <label>Password:</label>
-                <input
-                    type="password"
-                    name="password"
-                    value={password}
-                    onChange={handlePassword}
-                />
-
-                <button type="submit">Login</button>
-            </form>
-            {errorMessage && <p className="error-message">{errorMessage}</p>}
-
-            <p>Don't have an account yet?</p>
-            <Link to={"/signup"}> Sign Up</Link>
-        </div>
-    )
+  return (
+    <AuthLayout
+      title="Welcome back"
+      subtitle="Log in to see your workouts."
+      footer={
+        <>
+          Don't have an account?{" "}
+          <Anchor component={Link} to="/signup">Sign up</Anchor>
+        </>
+      }
+    >
+      <form onSubmit={handleLoginSubmit}>
+        <Stack gap="md">
+          <TextInput
+            label="Email"
+            type="email"
+            placeholder="you@example.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            autoComplete="email"
+            required
+            data-autofocus
+          />
+          <PasswordInput
+            label="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            autoComplete="current-password"
+            required
+          />
+          {errorMessage && <Alert color="red" variant="light">{errorMessage}</Alert>}
+          <Button type="submit" loading={isSubmitting} fullWidth mt="xs">
+            Log in
+          </Button>
+        </Stack>
+      </form>
+    </AuthLayout>
+  );
 }
 
 export default LoginPage;

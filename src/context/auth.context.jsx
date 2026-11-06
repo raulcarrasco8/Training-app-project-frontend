@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { notifications } from "@mantine/notifications";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -55,6 +56,37 @@ function AuthProviderWrapper(props) {
         // and update the state variables    
         authenticateUser();
     }
+
+    // Si cualquier petición con token recibe un 401 (token caducado o inválido),
+    // cerramos la sesión y avisamos. IsPrivate se encarga de llevar al login.
+    useEffect(() => {
+        const interceptorId = axios.interceptors.response.use(
+            (response) => response,
+            (error) => {
+                const headers = error.config?.headers;
+                const sentToken = Boolean(headers?.Authorization || headers?.get?.("Authorization"));
+
+                if (error.response?.status === 401 && sentToken) {
+                    const isExpired = error.response.data?.message?.startsWith("Session expired");
+                    removeToken();
+                    setIsLoggedIn(false);
+                    setUser(null);
+                    setIsLoading(false);
+                    // id fijo: si fallan varias peticiones a la vez, solo se muestra un aviso
+                    notifications.show({
+                        id: "session-ended",
+                        title: isExpired ? "Your session has expired" : "You've been logged out",
+                        message: "Please log in again to continue.",
+                        color: "medal",
+                    });
+                }
+
+                return Promise.reject(error);
+            }
+        );
+
+        return () => axios.interceptors.response.eject(interceptorId);
+    }, []);
 
     useEffect(() => {
         authenticateUser();

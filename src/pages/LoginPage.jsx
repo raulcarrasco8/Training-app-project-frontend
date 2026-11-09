@@ -1,31 +1,24 @@
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import { Alert, Anchor, Button, PasswordInput, Stack, TextInput } from "@mantine/core";
+import { Alert, Anchor, Button, Divider, PasswordInput, Stack, TextInput } from "@mantine/core";
 import { AuthContext } from "../context/auth.context";
 import AuthLayout from "../components/AuthLayout";
-
-const API_URL = import.meta.env.VITE_API_URL;
+import DemoLoginButton from "../components/DemoLoginButton";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { storeToken, authenticateUser } = useContext(AuthContext);
+  const { logIn } = useContext(AuthContext);
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
     setErrorMessage(null);
     setIsSubmitting(true);
 
-    axios
-      .post(`${API_URL}/auth/login`, { email, password })
-      .then(async (response) => {
-        storeToken(response.data.authToken);
-        // Al activarse la sesión, IsAnon redirige a /workouts
-        await authenticateUser();
-      })
+    // Al activarse la sesión, IsAnon redirige a la home (panel de resumen)
+    logIn(email, password)
       .catch((error) => {
         console.error("Login error:", error);
         setErrorMessage(error.response?.data?.message || "We couldn't log you in. Try again in a moment.");
@@ -67,6 +60,8 @@ function LoginPage() {
           <Button type="submit" loading={isSubmitting} fullWidth mt="xs">
             Log in
           </Button>
+          <Divider label="or" labelPosition="center" />
+          <DemoLoginButton fullWidth />
         </Stack>
       </form>
     </AuthLayout>

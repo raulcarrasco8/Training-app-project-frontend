@@ -13,7 +13,7 @@ function SignupPage() {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { storeToken, authenticateUser } = useContext(AuthContext);
+  const { logIn } = useContext(AuthContext);
 
   const handleSignupSubmit = (e) => {
     e.preventDefault();
@@ -22,13 +22,8 @@ function SignupPage() {
 
     axios
       .post(`${API_URL}/auth/signup`, { email, password, name })
-      // Tras registrarse, iniciamos sesión directamente: el usuario entra ya con sus disciplinas
-      .then(() => axios.post(`${API_URL}/auth/login`, { email, password }))
-      .then(async (response) => {
-        storeToken(response.data.authToken);
-        // Al activarse la sesión, IsAnon redirige a /disciplines
-        await authenticateUser();
-      })
+      // Tras registrarse, iniciamos sesión directamente; IsAnon redirige a /disciplines
+      .then(() => logIn(email, password))
       .catch((error) => {
         console.error("Signup error:", error);
         setErrorMessage(error.response?.data?.message || "We couldn't create your account. Try again in a moment.");

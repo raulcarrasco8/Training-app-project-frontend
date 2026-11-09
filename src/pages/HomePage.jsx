@@ -4,6 +4,7 @@ import axios from "axios";
 import { Button, Group, Paper, SimpleGrid, Skeleton, Stack, Text, Title } from "@mantine/core";
 import { AuthContext } from "../context/auth.context";
 import PageLoader from "../components/PageLoader";
+import DemoLoginButton from "../components/DemoLoginButton";
 import { formatDate } from "../utils/formatDate";
 import "./HomePage.css";
 
@@ -48,7 +49,11 @@ function GuestHome() {
           <Group mt="xl">
             <Button component={Link} to="/signup" size="md">Get started</Button>
             <Button component={Link} to="/login" size="md" variant="default">Log in</Button>
+            <DemoLoginButton size="md" />
           </Group>
+          <Text size="sm" c="dimmed" mt="sm">
+            Just looking? The demo account comes with sample workouts.
+          </Text>
         </div>
 
         <div className="home-mosaic" aria-hidden="true">

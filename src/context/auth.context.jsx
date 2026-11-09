@@ -44,6 +44,14 @@ function AuthProviderWrapper(props) {
         }
     }
 
+    // Inicia sesión: pide el token, lo guarda y carga el usuario.
+    // Si falla, la promesa se rechaza para que quien llame muestre el error.
+    const logIn = async (email, password) => {
+        const response = await axios.post(`${API_URL}/auth/login`, { email, password });
+        storeToken(response.data.authToken);
+        await authenticateUser();
+    }
+
     const removeToken = () => {                  
         // Upon logout, remove the token from the localStorage
         localStorage.removeItem("authToken");
@@ -99,6 +107,7 @@ function AuthProviderWrapper(props) {
                 isLoading,
                 user,
                 storeToken,
+                logIn,
                 authenticateUser,  // Añade authenticateUser al contexto
                 logOutUser        // Añade logOutUser al contexto
             }}

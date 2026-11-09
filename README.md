@@ -7,6 +7,12 @@ A full stack MERN app to plan, log and review your workouts across every discipl
 
 > 👀 **Just looking?** Click **Try the demo** on the home or login page to log in with sample data, or use `demo@trainingapp.dev` / `Demo1234`.
 
+![Training App home page with a photo mosaic and the Try the demo button](docs/screenshots/home.png)
+
+| Disciplines | Workout details |
+|---|---|
+| ![Discipline cards with sport photos](docs/screenshots/disciplines.png) | ![Workout details with discipline header and numbered exercises](docs/screenshots/workout.png) |
+
 ---
 
 ## ✨ Features
